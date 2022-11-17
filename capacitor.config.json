@@ -1,0 +1,6 @@
+{
+	"appId": "mydesk.minalouisleon.xyz",
+	"appName": "My Desk",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

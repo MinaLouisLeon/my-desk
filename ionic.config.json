@@ -1,0 +1,8 @@
+{
+  "name": "My Desk",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "a1dd49e0"
+}

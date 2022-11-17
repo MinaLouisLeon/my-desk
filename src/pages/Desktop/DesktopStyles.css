@@ -1,0 +1,19 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+
+.appBackgroundStyle {
+  background-color: white;
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow-x: auto;
+}
+@media (prefers-color-scheme: dark) {
+  .appBackgroundStyle {
+    background-color: #121212;
+  }
+}
