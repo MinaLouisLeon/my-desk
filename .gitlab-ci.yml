@@ -1,0 +1,22 @@
+image: mreichelt/android:31
+
+# Packages installation before running script
+before_script:
+  - curl -sL https://deb.nodesource.com/setup_16.x | bash -
+  - apt-get --quiet install -y nodejs
+  - npm i -g @ionic/cli cordova-res
+ 
+
+build :
+  stage : build
+  script : 
+    - npm install
+    - npm run build
+    - npx cap add android
+    - npx cap sync
+    - cd android 
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - android/app/build/outputs/apk/debug/
+
