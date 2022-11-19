@@ -1,13 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  desktopModeFolderData: {
-    isFolderOpen: false,
-    folderData: {
-      label: null,
-      index: null,
-    },
-  },
   didFolderExist: false,
   folders: [
     {
@@ -62,21 +55,6 @@ const foldersReducer = createSlice({
       let index = parseInt(action.payload);
       state.folders.splice(index, 1);
     },
-    actionOpenFolderInDesktopMode: (state, action) => {
-      //args label , index
-      state.desktopModeFolderData.isFolderOpen = true;
-      state.desktopModeFolderData.folderData = {
-        label: action.payload.label,
-        index: action.payload.index,
-      };
-    },
-    actionCloseFolderInDesktopMode: (state, action) => {
-      state.desktopModeFolderData.isFolderOpen = false;
-      state.desktopModeFolderData.folderData = {
-        index: null,
-        label: null,
-      };
-    },
   },
   extraReducers: {
     // eslint-disable-next-line
@@ -122,7 +100,5 @@ export const {
   actionResetDidFolderExist,
   actionAddFolder,
   actionDeleteFolder,
-  actionOpenFolderInDesktopMode,
-  actionCloseFolderInDesktopMode,
 } = foldersReducer.actions;
 export default foldersReducer.reducer;

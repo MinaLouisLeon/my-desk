@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import { actionUpdateAppDataGrid, actionUpdateZIndex } from "../../reducers/desktopModeReducer";
+// eslint-disable-next-line
+import {
+  actionUpdateAppDataGrid,
+  actionUpdateZIndex
+} from "../../reducers/desktopModeReducer";
 import WindowHeaderComp from "../../components/Desktop/WindowHeaderComp";
 import TaskbarComp from "../../components/Desktop/TaskbarComp";
 import RenderAppContentComp from "../../components/Desktop/RenderAppContentComp";
@@ -16,8 +20,8 @@ const BackgroundComp = styled.div`
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: ${props => props.backgroudColor};
-background-image: ${props => props.backgroudImage};
+  background-color: ${(props) => props.backgroudColor};
+  background-image: ${(props) => props.backgroudImage};
 `;
 const WorkareaComp = styled.div`
   position: fixed;
@@ -48,7 +52,6 @@ const DesktopMainPage = () => {
   const dispatch = useDispatch(null);
   const appsData = useSelector((state) => state.desktopModeReducer.appsData);
   const backgroud = useSelector((state) => state.desktopModeReducer.backgroud);
-  console.log(appsData)
   return (
     <BackgroundComp
       backgroudColor={backgroud.backgroudColor}
@@ -68,7 +71,8 @@ const DesktopMainPage = () => {
             draggableHandle=".dragHandlerClass"
             isDraggable={true}
             isResizable={true}
-            allowOverlap={true}
+            allowOverlap={false}
+            preventCollision={true}
             isDroppable={true}
             useCSSTransforms={false}
             onDragStop={(layout) => dispatch(actionUpdateAppDataGrid(layout))}
@@ -78,19 +82,26 @@ const DesktopMainPage = () => {
               return (
                 <WindowComp
                   className="shadow-2"
-                  key={app.appName}
+                  key={`${app.appKey}`}
                   id={`${app.appName}-contextMenu`}
                   data-grid={app.dataGrid}
                   zIndex={app.status.zIndex}
                   isMin={app.status.isMin}
-                  onClick={() => dispatch(actionUpdateZIndex(app.appName))}
+                  onClick={() => dispatch(actionUpdateZIndex(app.appKey))}
                 >
                   <WindowHeaderComp
                     appName={app.appName}
                     icon={app.icon}
                     isFullscreen={app.status.isFullscreen}
+                    appKey={app.appKey}
                   />
-                  <RenderAppContentComp appName={app.appName} />
+                  <RenderAppContentComp
+                    appName={app.appName}
+                    appKey={app.appKey}
+                    appContentType={app.appContentType}
+                    appContent={app.appContent}
+                    label={app.label}
+                  />
                 </WindowComp>
               );
             })}

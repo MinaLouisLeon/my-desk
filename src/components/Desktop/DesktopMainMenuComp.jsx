@@ -29,6 +29,7 @@ const DesktopMainMenuComp = () => {
                     actionOpenApp({
                       appName: app.appName,
                       icon: app.icon,
+                      appContentType : app.appContentType
                     })
                   )
                 }
