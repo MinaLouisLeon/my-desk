@@ -90,7 +90,7 @@ const ContextMenuComp = ({ targetId, options }) => {
       visible={contextData.visible}
       posX={contextData.posX}
       posY={contextData.posY}
-      zIndex={zIndex}
+      zIndex={zIndex + 10}
     >
       <Menu className="shadow-2">
         {options.map((item) => {

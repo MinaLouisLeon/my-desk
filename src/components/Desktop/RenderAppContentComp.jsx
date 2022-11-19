@@ -1,8 +1,8 @@
 import React from "react";
-import DesktopFoldesPage from "../../pages/Desktop/DesktopFoldesPage";
+import DesktopFoldersPage from "../../pages/Desktop/DesktopFoldersPage";
 import DesktopSettingsPage from "../../pages/Desktop/DesktopSettingsPage";
 
-const RenderAppContentComp = ({ appName }) => {
+const RenderAppContentComp = ({ appName,appKey,appContentType,appContent,label }) => {
   const renderAppContent = () => {
     switch (appName) {
       case "Folders":
@@ -11,7 +11,7 @@ const RenderAppContentComp = ({ appName }) => {
             className="appBackgroundStyle"
             id="FolderPageId"
           >
-            <DesktopFoldesPage />
+            <DesktopFoldersPage appKey={appKey} appContentType={appContentType} appContent={appContent} label={label}/>
           </div>
         );
       case "Settings":

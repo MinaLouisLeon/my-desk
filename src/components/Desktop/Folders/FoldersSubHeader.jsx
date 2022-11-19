@@ -2,8 +2,6 @@ import { Button } from "@blueprintjs/core";
 import React from "react";
 import styled from "styled-components";
 import IconProviderComp from "../Icons/IconProviderComp";
-import { useDispatch } from "react-redux";
-import { actionCloseFolderInDesktopMode } from "../../../reducers/foldersReducer";
 const SubHeader = styled.div`
   width: 100%;
   height: 40px;
@@ -14,12 +12,11 @@ const SubHeader = styled.div`
   justify-content: flex-start;
 `;
 const FoldersSubHeader = ({ label }) => {
-  const dispatch = useDispatch(null);
   return (
     <SubHeader>
       <Button
         minimal
-        onClick={() => dispatch(actionCloseFolderInDesktopMode())}
+        //onClick={() => dispatch(actionCloseFolderInDesktopMode())}
         icon={
           <IconProviderComp
             iconName="goBack"

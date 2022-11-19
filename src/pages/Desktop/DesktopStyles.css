@@ -3,6 +3,10 @@
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 @import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .appBackgroundStyle {
   background-color: white;
   position: absolute;

@@ -1,5 +1,39 @@
 /*
-  
+  apps : [
+    {
+      appName : string
+      icon : string IconProviderComp
+      appContentType : string
+    }
+  ]
+  appsData : [
+    appName : string
+    icon : string IconProviderComp
+    appKey : auto
+    label : string or null
+    appContent : array or string url or null
+    appMemory : array memory of appContent
+    appContentType : string 
+    status : {
+      isOpen: bool,
+      size: string,
+      isFullscreen: bool,
+      isMin: boll,
+      zIndex: auto,
+    },
+    dataGrid : {
+      i: auto,
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+      minH: number,
+      maxH: number,
+      minW: number,
+      maxW: number,
+    },
+    lastDataGrid : null or auto object copy of dataGrid
+  ]
  */
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
@@ -7,19 +41,21 @@ const initialState = {
     {
       appName: "Folders",
       icon: "folder",
+      appContentType : "folders"
     },
     {
       appName: "Settings",
       icon: "settings",
+      appContentType : "settings"
     },
   ],
   appsData: [],
   taskbarOpenedApps: [],
   lastZIndex: 2,
-  backgroud : {
-    backgroudColor : "#0093E9",
-    backgroudImage : "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)"
-  }
+  backgroud: {
+    backgroudColor: "#0093E9",
+    backgroudImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
+  },
 };
 
 const desktopModeReducer = createSlice({
@@ -27,10 +63,16 @@ const desktopModeReducer = createSlice({
   initialState,
   reducers: {
     actionOpenApp: (state, action) => {
-      //args appName , icon , layout
+      //args appName , icon , layout , appContentType
+      let l = state.appsData.length;
       state.appsData.push({
         appName: action.payload.appName,
         icon: action.payload.icon,
+        appKey: `${action.payload.appName}-${l}`,
+        label : null,
+        appContent : null,
+        appMemory : [],
+        appContentType : action.payload.appContentType,
         status: {
           isOpen: true,
           size: "default",
@@ -39,7 +81,7 @@ const desktopModeReducer = createSlice({
           zIndex: state.lastZIndex + 1,
         },
         dataGrid: {
-          i: action.payload.appName,
+          i: `${action.payload.appName}-${l}`,
           x: 0,
           y: 0,
           w: 4,
@@ -54,15 +96,16 @@ const desktopModeReducer = createSlice({
       state.taskbarOpenedApps.push({
         appName: action.payload.appName,
         icon: action.payload.icon,
+        appKey : `${action.payload.appName}-${l}`
       });
       state.lastZIndex = state.lastZIndex + 1;
     },
     actionCloseApp: (state, action) => {
-      // payload appName
+      // payload appKey
       let appIndex = null;
       // eslint-disable-next-line
       state.appsData.map((app, index) => {
-        if (app.appName === action.payload) {
+        if (app.appKey === action.payload) {
           appIndex = index;
         }
       });
@@ -75,7 +118,7 @@ const desktopModeReducer = createSlice({
       state.appsData.map((app) => {
         // eslint-disable-next-line
         action.payload.map((item) => {
-          if (app.appName === item.i) {
+          if (app.appKey === item.i) {
             return (
               (app.status.isFullscreen = false),
               (app.dataGrid = {
@@ -94,15 +137,15 @@ const desktopModeReducer = createSlice({
       });
     },
     actionToggleAppFullscreen: (state, action) => {
-      //payload appName
+      //payload appKey
       // eslint-disable-next-line
       state.appsData.map((app) => {
-        if (app.appName === action.payload) {
+        if (app.appKey === action.payload) {
           if (!app.status.isFullscreen) {
             return (
               (app.lastDataGrid = app.dataGrid),
               (app.dataGrid = {
-                i: action.payload.appName,
+                i: action.payload,
                 x: 0,
                 y: 0,
                 w: 12,
@@ -123,26 +166,45 @@ const desktopModeReducer = createSlice({
               (app.status.isFullscreen = false)
             );
           }
+        }else{
+          app.status.isMin = !app.status.isMin;
         }
       });
     },
     actionToggleAppMin: (state, action) => {
-      //payload appName
+      //payload appKey
       // eslint-disable-next-line
       state.appsData.map((app) => {
-        if (app.appName === action.payload) {
+        if (app.appKey === action.payload) {
           app.status.isMin = !app.status.isMin;
         }
       });
     },
     actionUpdateZIndex: (state, action) => {
-      // payload appName
+      // payload appKey
       // eslint-disable-next-line
       state.appsData.map((app) => {
-        if (app.appName === action.payload) {
+        if (app.appKey === action.payload) {
           return (
-            app.status.zIndex = state.lastZIndex + 1,
-            state.lastZIndex = state.lastZIndex + 1
+            (app.status.zIndex = state.lastZIndex + 1),
+            (state.lastZIndex = state.lastZIndex + 1)
+          );
+        }
+      });
+    },
+    actionOpenFolder: (state,action) => {
+      // appKey appContent appContentType label
+      // eslint-disable-next-line
+      state.appsData.map((app) => {
+        if(app.appKey === action.payload.appKey){
+          return (
+            app.appMemory.push({
+              appContent : app.appContent,
+              appContentType : app.appContentType
+            }),
+            app.appContentType = action.payload.appContentType,
+            app.appContent = action.payload.appContent,
+            app.label = action.payload.label
           )
         }
       })
@@ -156,6 +218,7 @@ export const {
   actionUpdateAppDataGrid,
   actionToggleAppFullscreen,
   actionToggleAppMin,
-  actionUpdateZIndex
+  actionUpdateZIndex,
+  actionOpenFolder
 } = desktopModeReducer.actions;
 export default desktopModeReducer.reducer;

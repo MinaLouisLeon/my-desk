@@ -24,37 +24,37 @@ const HeaderBtns = styled.div`
   background-color: transparent;
   display: flex;
 `;
-const WindowHeaderComp = ({ appName, icon, isFullscreen }) => {
+const WindowHeaderComp = ({ appName, icon, isFullscreen ,appKey}) => {
   const dispatch = useDispatch(null);
   return (
-    <WindowHeader className="pl2 pr2" id={`${appName}HeaderContextMenuId`}>
+    <WindowHeader className="pl2 pr2" id={`${appKey}HeaderContextMenuId`}>
       <ContextMenuComp 
-        targetId={`${appName}HeaderContextMenuId`}
+        targetId={`${appKey}HeaderContextMenuId`}
         options={[
           {
             text : "Minimize",
             icon :"minus",
             color : "none",
-            handler : () => dispatch(actionToggleAppMin(appName))
+            handler : () => dispatch(actionToggleAppMin(appKey))
           },
           {
             text : "Restore",
             icon : "minimize",
             color : "none",
             disabled : isFullscreen ? false : true,
-            handler : () => dispatch(actionToggleAppFullscreen(appName))
+            handler : () => dispatch(actionToggleAppFullscreen(appKey))
           },
           {
             text : "Maximize",
             icon : "maximize",
             color : "none",
             disabled : isFullscreen ? true : false,
-            handler : () => dispatch(actionToggleAppFullscreen(appName))
+            handler : () => dispatch(actionToggleAppFullscreen(appKey))
           },{
             text : "Close",
             icon : "cross",
             color : "danger",
-            handler : () => dispatch(actionCloseApp(appName))
+            handler : () => dispatch(actionCloseApp(appKey))
           }
         ]}
       />
@@ -71,15 +71,15 @@ const WindowHeaderComp = ({ appName, icon, isFullscreen }) => {
             />
           )}
           <Button
-            onClick={() => dispatch(actionToggleAppMin(appName))}
+            onClick={() => dispatch(actionToggleAppMin(appKey))}
             icon="minus"
           />
           <Button
-            onClick={() => dispatch(actionToggleAppFullscreen(appName))}
+            onClick={() => dispatch(actionToggleAppFullscreen(appKey))}
             icon={isFullscreen ? "minimize" : "maximize"}
           />
           <Button
-            onClick={() => dispatch(actionCloseApp(appName))}
+            onClick={() => dispatch(actionCloseApp(appKey))}
           >
             <Icon  icon="cross" color="#ac2f33" />
           </Button>
