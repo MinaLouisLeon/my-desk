@@ -4,7 +4,7 @@ import ItemInGridComp from "../../components/Desktop/ItemInGridComp";
 import GridSystemComp from "../../components/Desktop/GridSystemComp";
 import DesktopFolderContentComp from "../../components/Desktop/Folders/DesktopFolderContentComp";
 import ContextMenuComp from "../../components/Desktop/ContextMenuComp";
-import { actionOpenFolder } from "../../reducers/desktopModeReducer";
+import { actionOpenInFolder } from "../../reducers/desktopModeReducer";
 const DesktopFoldersPage = ({ appKey ,appContentType,appContent,label}) => {
   const dispatch = useDispatch(null);
   const folders = useSelector((state) => state.foldersReducer.folders);
@@ -24,12 +24,11 @@ const DesktopFoldersPage = ({ appKey ,appContentType,appContent,label}) => {
       {folders.map((folder) => {
         return (
           <ItemInGridComp
-            icon="folder-close"
-            iconColor="#ffca28"
+            icon="folder"
             label={folder.label}
             handler={() => {
               dispatch(
-                actionOpenFolder({
+                actionOpenInFolder({
                   appKey : appKey,
                   appContentType : "folderContent",
                   appContent : folder.data,
@@ -43,7 +42,7 @@ const DesktopFoldersPage = ({ appKey ,appContentType,appContent,label}) => {
     </GridSystemComp>
     )
   }else if(appContentType === "folderContent"){
-    return <DesktopFolderContentComp data={appContent} label={label} />
+    return <DesktopFolderContentComp data={appContent} label={label} appKey={appKey} />
   }
 }
 export default DesktopFoldersPage

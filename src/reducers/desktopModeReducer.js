@@ -63,7 +63,7 @@ const desktopModeReducer = createSlice({
   initialState,
   reducers: {
     actionOpenApp: (state, action) => {
-      //args appName , icon , layout , appContentType
+      //args appName , icon  , appContentType
       let l = state.appsData.length;
       state.appsData.push({
         appName: action.payload.appName,
@@ -192,7 +192,7 @@ const desktopModeReducer = createSlice({
         }
       });
     },
-    actionOpenFolder: (state,action) => {
+    actionOpenInFolder: (state,action) => {
       // appKey appContent appContentType label
       // eslint-disable-next-line
       state.appsData.map((app) => {
@@ -200,7 +200,8 @@ const desktopModeReducer = createSlice({
           return (
             app.appMemory.push({
               appContent : app.appContent,
-              appContentType : app.appContentType
+              appContentType : app.appContentType,
+              label:app.label
             }),
             app.appContentType = action.payload.appContentType,
             app.appContent = action.payload.appContent,
@@ -208,7 +209,19 @@ const desktopModeReducer = createSlice({
           )
         }
       })
-    }
+    },
+    actionCloseInFolder : (state,action) => {
+      // payload appKey
+      // eslint-disable-next-line
+      state.appsData.map((app) => {
+        if(app.appKey === action.payload){
+          let data = app.appMemory.pop();
+          app.appContent = data.appContent;
+          app.appContentType = data.appContentType;
+          app.label = data.label;
+        }
+      })
+    },
   },
 });
 
@@ -219,6 +232,7 @@ export const {
   actionToggleAppFullscreen,
   actionToggleAppMin,
   actionUpdateZIndex,
-  actionOpenFolder
+  actionOpenInFolder,
+  actionCloseInFolder,
 } = desktopModeReducer.actions;
 export default desktopModeReducer.reducer;

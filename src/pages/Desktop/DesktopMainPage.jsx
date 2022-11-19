@@ -9,6 +9,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 // eslint-disable-next-line
 import {
   actionUpdateAppDataGrid,
+  actionUpdateZIndex
 } from "../../reducers/desktopModeReducer";
 import WindowHeaderComp from "../../components/Desktop/WindowHeaderComp";
 import TaskbarComp from "../../components/Desktop/TaskbarComp";
@@ -86,7 +87,7 @@ const DesktopMainPage = () => {
                   data-grid={app.dataGrid}
                   zIndex={app.status.zIndex}
                   isMin={app.status.isMin}
-                  //onClick={() => dispatch(actionUpdateZIndex(app.appKey))}
+                  onClick={() => dispatch(actionUpdateZIndex(app.appKey))}
                 >
                   <WindowHeaderComp
                     appName={app.appName}
