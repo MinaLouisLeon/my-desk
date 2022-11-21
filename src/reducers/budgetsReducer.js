@@ -31,7 +31,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  desktopModeBudget: false,
+  isbudgetOpenedInDesktop : false,
   didBudgetExist: false,
   budgetsData: [],
   selectedBudget: [],
@@ -93,7 +93,6 @@ const budgetsReducer = createSlice({
         return item["budgetId"].includes(budgetId);
       });
       state.selectedBudget = filteredBudget;
-      state.desktopModeBudget = true;
     },
     actionAddAmountToBudget: (state, action) => {
       //args type (income,expens), label , amount,status
@@ -169,9 +168,9 @@ const budgetsReducer = createSlice({
       });
       state.selectedBudget[0] = newBudgetData;
     },
-    actionCloseBudgetInDesktopMode: (state, action) => {
-      state.desktopModeBudget = false;
-    },
+    actionOpenBudgetInDesktopMode: (state,action) => {
+      state.isbudgetOpenedInDesktop = true
+    }
   },
   extraReducers: {
     // eslint-disable-next-line
@@ -186,6 +185,12 @@ const budgetsReducer = createSlice({
         }
       });
     },
+    // eslint-disable-next-line
+    ["desktopModeReducer/actionCloseApp"] : (state,action) => {
+      if(state.isbudgetOpenedInDesktop && action.payload.includes("Budget")){
+        state.isbudgetOpenedInDesktop = false
+      }
+    }
   },
 });
 
@@ -196,6 +201,7 @@ export const {
   actionSetSelectedBudget,
   actionAddAmountToBudget,
   actionSetCustdyExpensStatus,
-  actionCloseBudgetInDesktopMode,
+  actionOpenBudgetInDesktopMode
 } = budgetsReducer.actions;
 export default budgetsReducer.reducer;
+ 
