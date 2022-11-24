@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import NormalBudgetComp from "../../components/Desktop/Budget/NormalBudgetComp";
-
+import CustodyBudgetComp from "../../components/Desktop/Budget/CustodyBudgetComp";
 const DesktopBudgetPage = () => {
   const selectedBudget = useSelector(
     (state) => state.budgetsReducer.selectedBudget[0]
@@ -10,9 +10,11 @@ const DesktopBudgetPage = () => {
     return (
       <NormalBudgetComp selectedBudget={selectedBudget} />
       );
-  }
-  //TODO: add custody handler
-  
+  }else if(selectedBudget.budgetType === "custody"){
+    return(
+      <CustodyBudgetComp selectedBudget={selectedBudget} />
+    )
+  }  
 };
 
 export default DesktopBudgetPage;

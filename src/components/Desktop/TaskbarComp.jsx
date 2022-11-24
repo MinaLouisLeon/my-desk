@@ -35,7 +35,9 @@ const TaskbarComp = () => {
             {taskbarOpenedApps.map((app) => {
               return (
                 <Button
-                  onClick={() => dispatch(actionToggleAppMin(app.appKey))}
+                  onClick={() => {
+                    dispatch(actionToggleAppMin(app.appKey));
+                  }}
                   icon={
                     <IconProviderComp
                       iconName={app.icon}

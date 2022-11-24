@@ -176,6 +176,8 @@ const desktopModeReducer = createSlice({
       // eslint-disable-next-line
       state.appsData.map((app) => {
         if (app.appKey === action.payload) {
+          state.lastZIndex = state.lastZIndex + 1;
+          app.status.zIndex = state.lastZIndex;
           app.status.isMin = !app.status.isMin;
         }
       });

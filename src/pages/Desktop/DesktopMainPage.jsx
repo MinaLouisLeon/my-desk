@@ -71,8 +71,8 @@ const DesktopMainPage = () => {
             draggableHandle=".dragHandlerClass"
             isDraggable={true}
             isResizable={true}
-            allowOverlap={false}
-            preventCollision={true}
+            allowOverlap={true}
+            preventCollision={false}
             isDroppable={true}
             useCSSTransforms={false}
             onDragStop={(layout) => dispatch(actionUpdateAppDataGrid(layout))}

@@ -31,7 +31,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isbudgetOpenedInDesktop : false,
+  isbudgetOpenedInDesktop: false,
   didBudgetExist: false,
   budgetsData: [],
   selectedBudget: [],
@@ -149,28 +149,40 @@ const budgetsReducer = createSlice({
       // eslint-disable-next-line
       state.budgetsData.map((budget) => {
         if (budget.budgetId === budgetId) {
-          if (action.payload.isTransferred) {
-            totalBudget = totalBudget + parseFloat(action.payload.amount);
-          } else {
-            if (budget.data[action.payload.index].status.isTransferred) {
-              totalBudget = totalBudget - parseFloat(action.payload.amount);
+          if (action.payload.isSubmitted) {
+            if (action.payload.isTransferred) {
+              totalBudget = totalBudget + parseFloat(action.payload.amount);
+            } else {
+              if (budget.data[action.payload.index].status.isTransferred) {
+                totalBudget = totalBudget - parseFloat(action.payload.amount);
+              }
             }
+            return (
+              (budget.totalBudget = totalBudget),
+              (budget.data[action.payload.index].status = {
+                isSubmitted: action.payload.isSubmitted,
+                isTransferred: action.payload.isTransferred,
+              }),
+              (newBudgetData = budget)
+            );
+          }else{
+            totalBudget = totalBudget - parseFloat(action.payload.amount);
+            return (
+              (budget.totalBudget = totalBudget),
+              (budget.data[action.payload.index].status = {
+                isSubmitted: false,
+                isTransferred: false,
+              }),
+              (newBudgetData = budget)
+            );
           }
-          return (
-            (budget.totalBudget = totalBudget),
-            (budget.data[action.payload.index].status = {
-              isSubmitted: action.payload.isSubmitted,
-              isTransferred: action.payload.isTransferred,
-            }),
-            (newBudgetData = budget)
-          );
         }
       });
       state.selectedBudget[0] = newBudgetData;
     },
-    actionOpenBudgetInDesktopMode: (state,action) => {
-      state.isbudgetOpenedInDesktop = true
-    }
+    actionOpenBudgetInDesktopMode: (state, action) => {
+      state.isbudgetOpenedInDesktop = true;
+    },
   },
   extraReducers: {
     // eslint-disable-next-line
@@ -186,11 +198,11 @@ const budgetsReducer = createSlice({
       });
     },
     // eslint-disable-next-line
-    ["desktopModeReducer/actionCloseApp"] : (state,action) => {
-      if(state.isbudgetOpenedInDesktop && action.payload.includes("Budget")){
-        state.isbudgetOpenedInDesktop = false
+    ["desktopModeReducer/actionCloseApp"]: (state, action) => {
+      if (state.isbudgetOpenedInDesktop && action.payload.includes("Budget")) {
+        state.isbudgetOpenedInDesktop = false;
       }
-    }
+    },
   },
 });
 
@@ -201,7 +213,6 @@ export const {
   actionSetSelectedBudget,
   actionAddAmountToBudget,
   actionSetCustdyExpensStatus,
-  actionOpenBudgetInDesktopMode
+  actionOpenBudgetInDesktopMode,
 } = budgetsReducer.actions;
 export default budgetsReducer.reducer;
- 
