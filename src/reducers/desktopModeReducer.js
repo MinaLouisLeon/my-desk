@@ -56,6 +56,7 @@ const initialState = {
     backgroudColor: "#0093E9",
     backgroudImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
   },
+  popoverName : ""
 };
 
 const desktopModeReducer = createSlice({
@@ -224,6 +225,13 @@ const desktopModeReducer = createSlice({
         }
       })
     },
+    actionOpenPopover : (state,action) => {
+      // payload popoverName
+      state.popoverName = action.payload
+    },
+    actionClosePopover : (state,action) => {
+      state.popoverName = "";
+    }
   },
 });
 
@@ -236,5 +244,7 @@ export const {
   actionUpdateZIndex,
   actionOpenInFolder,
   actionCloseInFolder,
+  actionOpenPopover,
+  actionClosePopover
 } = desktopModeReducer.actions;
 export default desktopModeReducer.reducer;

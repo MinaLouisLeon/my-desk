@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FoldersSubHeader from "./FoldersSubHeader";
 import GridSystemComp from "../GridSystemComp";
@@ -12,12 +12,15 @@ import {
   actionOpenBudgetInDesktopMode,
   actionSetSelectedBudget,
 } from "../../../reducers/budgetsReducer";
+import DesktopPopoverComp from "../DesktopPopoverComp";
 
 const DesktopFolderContentComp = ({ data, label, appKey }) => {
   const dispatch = useDispatch(null);
   const isbudgetOpenedInDesktop = useSelector(
     (state) => state.budgetsReducer.isbudgetOpenedInDesktop
   );
+  const [isNewBudgetPopoverOpen,setIsNewBudgetPopoverOpen] = useState(true)
+  console.log(isNewBudgetPopoverOpen)
   const handleItemType = (item) => {
     if (item.dataType === "budget") {
       return (
