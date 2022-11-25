@@ -55,7 +55,7 @@ const initialState = {
   backgroud: {
     backgroudColor: "#0093E9",
     backgroudImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
-  },
+  }
 };
 
 const desktopModeReducer = createSlice({
@@ -176,6 +176,8 @@ const desktopModeReducer = createSlice({
       // eslint-disable-next-line
       state.appsData.map((app) => {
         if (app.appKey === action.payload) {
+          state.lastZIndex = state.lastZIndex + 1;
+          app.status.zIndex = state.lastZIndex;
           app.status.isMin = !app.status.isMin;
         }
       });

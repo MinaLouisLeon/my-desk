@@ -7,7 +7,6 @@ import { trashOutline } from "ionicons/icons";
 import { useDispatch } from 'react-redux';
 import { actionDeleteFolder } from '../../reducers/foldersReducer';
 import MobileFolderContentViewComp from '../../components/Mobile/Folders/MobileFolderContentViewComp';
-//TODO: manage handler
 
 const MobileFolderContentPage = () => {
   const pageRef = useRef(null);

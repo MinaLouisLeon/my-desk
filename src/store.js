@@ -15,11 +15,13 @@ import settingsReducer from "./reducers/settingsReducer";
 import desktopModeReducer from "./reducers/desktopModeReducer";
 import foldersReducer from "./reducers/foldersReducer";
 import budgetsReducer from "./reducers/budgetsReducer";
+import tempReducer from "./reducers/tempReducer";
 const reducers = combineReducers({
   settingsReducer,
   desktopModeReducer,
   foldersReducer,
   budgetsReducer,
+  tempReducer
 });
 
 const persistConfig = {
