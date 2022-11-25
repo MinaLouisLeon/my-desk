@@ -12,13 +12,12 @@ import {
   actionOpenBudgetInDesktopMode,
   actionSetSelectedBudget,
 } from "../../../reducers/budgetsReducer";
-import DesktopPopoverComp from "../DesktopPopoverComp";
-
 const DesktopFolderContentComp = ({ data, label, appKey }) => {
   const dispatch = useDispatch(null);
   const isbudgetOpenedInDesktop = useSelector(
     (state) => state.budgetsReducer.isbudgetOpenedInDesktop
   );
+  // eslint-disable-next-line
   const [isNewBudgetPopoverOpen,setIsNewBudgetPopoverOpen] = useState(true)
   console.log(isNewBudgetPopoverOpen)
   const handleItemType = (item) => {
