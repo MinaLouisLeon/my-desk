@@ -7,7 +7,7 @@ const BackDrop = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: gray;
+  background-color: #80808087;
   z-index: ${(props) => props.zIndex};
   display: flex;
   display: flex;
@@ -19,16 +19,14 @@ const BackDrop = styled.div`
 const PopoverContainer = styled.div`
   background-color: white;
 `;
-const DesktopPopoverComp = ({ children, isOpen, onDismiss }) => {
-  console.log(isOpen);
+const DesktopPopoverComp = ({ children,isOpen }) => {
   const lastZIndex = useSelector(
     (state) => state.desktopModeReducer.lastZIndex
   );
-
   return (
     <>
       {isOpen && (
-        <BackDrop zIndex={lastZIndex + 2} id="PopoverId">
+        <BackDrop zIndex={lastZIndex + 2} id="PopoverId" className="pa2 shadow-2">
           <PopoverContainer className="br4 shadow-2 pa2">
             {children}
           </PopoverContainer>

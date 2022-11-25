@@ -6,14 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
-// eslint-disable-next-line
 import {
   actionUpdateAppDataGrid,
-  actionUpdateZIndex
+  actionUpdateZIndex,
 } from "../../reducers/desktopModeReducer";
 import WindowHeaderComp from "../../components/Desktop/WindowHeaderComp";
 import TaskbarComp from "../../components/Desktop/TaskbarComp";
 import RenderAppContentComp from "../../components/Desktop/RenderAppContentComp";
+import DesktopPopoverComp from "../../components/Desktop/DesktopPopoverComp";
+import AlertComp from "../../components/Desktop/AlertComp";
 const BackgroundComp = styled.div`
   position: fixed;
   top: 0;
@@ -52,13 +53,21 @@ const DesktopMainPage = () => {
   const dispatch = useDispatch(null);
   const appsData = useSelector((state) => state.desktopModeReducer.appsData);
   const backgroud = useSelector((state) => state.desktopModeReducer.backgroud);
+  const popoverState = useSelector((state) => state.tempReducer.popoverState);
+  const alertState = useSelector(state => state.tempReducer.alertState);
   return (
     <BackgroundComp
       backgroudColor={backgroud.backgroudColor}
       backgroudImage={backgroud.backgroudImage}
       id="DesktopContextMenuId"
     >
-      {/* <DesktopContextMenuComp /> */}
+      <AlertComp isOpen={alertState.isOpen}>
+        {alertState.content}
+      </AlertComp>
+      <DesktopPopoverComp isOpen={popoverState.isOpen}>
+        {popoverState.content}
+      </DesktopPopoverComp>
+      {/* TODO: add desktop context menu */}
       <WorkareaComp>
         <GridItemsContainer>
           <ResponsiveGridLayout
