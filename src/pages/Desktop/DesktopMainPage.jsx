@@ -110,6 +110,7 @@ const DesktopMainPage = () => {
                     appContentType={app.appContentType}
                     appContent={app.appContent}
                     label={app.label}
+                    folderIndex={app.folderIndex}
                   />
                 </WindowComp>
               );

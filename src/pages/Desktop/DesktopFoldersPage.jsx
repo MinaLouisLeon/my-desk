@@ -5,23 +5,31 @@ import GridSystemComp from "../../components/Desktop/GridSystemComp";
 import DesktopFolderContentComp from "../../components/Desktop/Folders/DesktopFolderContentComp";
 import ContextMenuComp from "../../components/Desktop/ContextMenuComp";
 import { actionOpenInFolder } from "../../reducers/desktopModeReducer";
-import { actionClosePopover, actionOpenAlert, actionOpenPopover } from "../../reducers/tempReducer";
+import {
+  actionClosePopover,
+  actionOpenAlert,
+  actionOpenPopover,
+} from "../../reducers/tempReducer";
 import InputItem from "../../components/Desktop/Forms/InputItem";
 import FormBtns from "../../components/Desktop/Forms/FormBtns";
 import { actionAddFolder } from "../../reducers/foldersReducer";
 
-const DesktopFoldersPage = ({ appKey, appContentType, appContent, label }) => {
+const DesktopFoldersPage = ({ appKey, appContentType, appContent, label,folderIndex }) => {
   const dispatch = useDispatch(null);
   const folders = useSelector((state) => state.foldersReducer.folders);
-  const didFolderExist = useSelector(state => state.foldersReducer.didFolderExist);
-  const isAlertOpen = useSelector(state => state.tempReducer.alertState.isOpen);
-  if(didFolderExist && !isAlertOpen){
-    dispatch(actionOpenAlert(<div className="ma3">Folder Exist !</div>))
+  const didFolderExist = useSelector(
+    (state) => state.foldersReducer.didFolderExist
+  );
+  const isAlertOpen = useSelector(
+    (state) => state.tempReducer.alertState.isOpen
+  );
+  if (didFolderExist && !isAlertOpen) {
+    dispatch(actionOpenAlert(<div className="ma3">Folder Exist !</div>));
   }
   const handleSubmitAddFolder = (e) => {
     e.preventDefault();
     dispatch(actionAddFolder(e.target[0].value));
-    dispatch(actionClosePopover())
+    dispatch(actionClosePopover());
     //TODO: add handle function to add folder submit
   };
   //TODO: add new folder form ui
@@ -36,7 +44,7 @@ const DesktopFoldersPage = ({ appKey, appContentType, appContent, label }) => {
             type="text"
           />
         </div>
-        <FormBtns submitBtnName="Add"/>
+        <FormBtns submitBtnName="Add" />
       </form>
     </>
   );
@@ -58,20 +66,27 @@ const DesktopFoldersPage = ({ appKey, appContentType, appContent, label }) => {
         />
         {folders.map((folder) => {
           return (
-            <ItemInGridComp
-              icon="folder"
-              label={folder.label}
-              handler={() => {
-                dispatch(
-                  actionOpenInFolder({
-                    appKey: appKey,
-                    appContentType: "folderContent",
-                    appContent: folder.data,
-                    label: folder.label,
-                  })
-                );
-              }}
-            />
+            <>
+              {folder.inTrash ? (
+                <></>
+              ) : (
+                <ItemInGridComp
+                  icon="folder"
+                  label={folder.label}
+                  handler={() => {
+                    dispatch(
+                      actionOpenInFolder({
+                        appKey: appKey,
+                        appContentType: "folderContent",
+                        appContent: folder.data,
+                        label: folder.label,
+                        index : folderIndex
+                      })
+                    );
+                  }}
+                />
+              )}
+            </>
           );
         })}
       </GridSystemComp>
@@ -82,6 +97,7 @@ const DesktopFoldersPage = ({ appKey, appContentType, appContent, label }) => {
         data={appContent}
         label={label}
         appKey={appKey}
+        folderIndex={folderIndex}
       />
     );
   }

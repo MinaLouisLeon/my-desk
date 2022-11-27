@@ -45,10 +45,19 @@ const foldersReducer = createSlice({
       }
     },
     actionDeleteFolder: (state, action) => {
-      // payload folderIndex int , folderName string
-      let index = parseInt(action.payload.folderIndex);
-      state.folders[index].inTrash = true;
-      state.folders[index].label = `${state.folders[index].label}-trash`;
+      // payload folderName string
+      // eslint-disable-next-line
+      state.folders.map((folder) => {
+        if(folder.label === action.payload){
+          return(
+            folder.inTrash = true,
+            folder.label = `${folder.label}-trash`
+          )
+        }     
+      })
+      // let index = parseInt(action.payload.folderIndex);
+      // state.folders[index].inTrash = true;
+      // state.folders[index].label = `${state.folders[index].label}-trash`;
     },
     actionDeletePermFolder: (state, action) => {
       // payload index of folder

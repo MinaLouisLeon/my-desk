@@ -64,6 +64,7 @@ const desktopModeReducer = createSlice({
   reducers: {
     actionOpenApp: (state, action) => {
       //args appName , icon  , appContentType
+      state.lastZIndex = state.lastZIndex + 1;
       let l = state.appsData.length;
       state.appsData.push({
         appName: action.payload.appName,
@@ -71,6 +72,7 @@ const desktopModeReducer = createSlice({
         appKey: `${action.payload.appName}-${l}`,
         label : null,
         appContent : null,
+        folderIndex : null,
         appMemory : [],
         appContentType : action.payload.appContentType,
         status: {
@@ -195,7 +197,7 @@ const desktopModeReducer = createSlice({
       });
     },
     actionOpenInFolder: (state,action) => {
-      // appKey appContent appContentType label
+      // appKey appContent ,appContentType, label , index
       // eslint-disable-next-line
       state.appsData.map((app) => {
         if(app.appKey === action.payload.appKey){
@@ -203,11 +205,12 @@ const desktopModeReducer = createSlice({
             app.appMemory.push({
               appContent : app.appContent,
               appContentType : app.appContentType,
-              label:app.label
+              label:app.label,
             }),
             app.appContentType = action.payload.appContentType,
             app.appContent = action.payload.appContent,
-            app.label = action.payload.label
+            app.label = action.payload.label,
+            app.folderIndex = action.payload.index
           )
         }
       })

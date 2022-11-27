@@ -187,7 +187,7 @@ const budgetsReducer = createSlice({
   extraReducers: {
     // eslint-disable-next-line
     ["foldersReducer/actionDeleteFolder"]: (state, action) => {
-      // payload folderIndex int , folderName string
+      // payload folderName string
       // eslint-disable-next-line
       state.budgetsData.map((item) => {
         if (item.budgetFolder === action.payload.folderName) {

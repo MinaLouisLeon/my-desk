@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FoldersSubHeader from "./FoldersSubHeader";
 import GridSystemComp from "../GridSystemComp";
@@ -12,14 +12,12 @@ import {
   actionOpenBudgetInDesktopMode,
   actionSetSelectedBudget,
 } from "../../../reducers/budgetsReducer";
-const DesktopFolderContentComp = ({ data, label, appKey }) => {
+import { actionDeleteFolder } from "../../../reducers/foldersReducer";
+const DesktopFolderContentComp = ({ data, label, appKey,folderIndex }) => {
   const dispatch = useDispatch(null);
   const isbudgetOpenedInDesktop = useSelector(
     (state) => state.budgetsReducer.isbudgetOpenedInDesktop
   );
-  // eslint-disable-next-line
-  const [isNewBudgetPopoverOpen,setIsNewBudgetPopoverOpen] = useState(true)
-  console.log(isNewBudgetPopoverOpen)
   const handleItemType = (item) => {
     if (item.dataType === "budget") {
       return (
@@ -68,7 +66,10 @@ const DesktopFolderContentComp = ({ data, label, appKey }) => {
             text: "Delete Folder",
             color: "danger",
             icon: "trash",
-            // TODO: add handler
+            handler : () => {
+              dispatch(actionDeleteFolder(label));
+              dispatch(actionCloseInFolder(appKey))
+            }
           },
         ]}
       />
