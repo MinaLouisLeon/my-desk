@@ -3,6 +3,7 @@ import BudgetSubHeader from "./BudgetSubHeader";
 import ContextMenuComp from "../ContextMenuComp";
 import styled from "styled-components";
 import CheckBoxItem from "../Forms/CheckBoxItem";
+import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import {
   actionClosePopover,
@@ -57,25 +58,28 @@ const CustodyBudgetComp = ({ selectedBudget }) => {
             <BudgetItem
               className="pa2 pl3 pointer"
               onClick={() => {
-                //TODO: change to list
                 dispatch(
                   actionOpenPopover(
                     <div className="ma2">
-                      <form
+                      <Form
                         onSubmit={(e) =>
                           handleSubmitExpensState(e, index, item.amount)
                         }
                       >
-                        <CheckBoxItem
-                          label="Is Submitted ?"
-                          checked={item.status.isSubmitted}
-                        />
-                        <CheckBoxItem
-                          label="Is Transferred ?"
-                          checked={item.status.isTransferred}
-                        />
+                        <Form.Group>
+                          <CheckBoxItem
+                            label="Is Submitted ?"
+                            checked={item.status.isSubmitted}
+                            type="switch"
+                          />
+                          <CheckBoxItem
+                            label="Is Transferred ?"
+                            checked={item.status.isTransferred}
+                            type="switch"
+                          />
+                        </Form.Group>
                         <FormBtns submitBtnName="Save" />
-                      </form>
+                      </Form>
                     </div>
                   )
                 );

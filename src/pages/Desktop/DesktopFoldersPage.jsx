@@ -4,17 +4,24 @@ import ItemInGridComp from "../../components/Desktop/ItemInGridComp";
 import GridSystemComp from "../../components/Desktop/GridSystemComp";
 import DesktopFolderContentComp from "../../components/Desktop/Folders/DesktopFolderContentComp";
 import ContextMenuComp from "../../components/Desktop/ContextMenuComp";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import { actionOpenInFolder } from "../../reducers/desktopModeReducer";
 import {
   actionClosePopover,
   actionOpenAlert,
   actionOpenPopover,
 } from "../../reducers/tempReducer";
-import InputItem from "../../components/Desktop/Forms/InputItem";
 import FormBtns from "../../components/Desktop/Forms/FormBtns";
 import { actionAddFolder } from "../../reducers/foldersReducer";
 
-const DesktopFoldersPage = ({ appKey, appContentType, appContent, label,folderIndex }) => {
+const DesktopFoldersPage = ({
+  appKey,
+  appContentType,
+  appContent,
+  label,
+  folderIndex,
+}) => {
   const dispatch = useDispatch(null);
   const folders = useSelector((state) => state.foldersReducer.folders);
   const didFolderExist = useSelector(
@@ -28,25 +35,24 @@ const DesktopFoldersPage = ({ appKey, appContentType, appContent, label,folderIn
   }
   const handleSubmitAddFolder = (e) => {
     e.preventDefault();
-    dispatch(actionAddFolder(e.target[0].value));
-    dispatch(actionClosePopover());
-    //TODO: add handle function to add folder submit
+      dispatch(actionAddFolder(e.target[0].value));
+      dispatch(actionClosePopover());
   };
   //TODO: add new folder form ui
   const addFolderPopoverContent = (
-    <>
-      <form onSubmit={handleSubmitAddFolder}>
-        <div>
-          <InputItem
-            label="Folder Name:"
-            required={true}
-            placeholder="Folder Name ..."
-            type="text"
-          />
-        </div>
+    <div className="pa2">
+      <Form
+        onSubmit={handleSubmitAddFolder}
+      >
+        <Form.Group>
+          <Form.Label>Folder Name:</Form.Label>
+          <InputGroup hasValidation >
+            <Form.Control required type="text" placeholder="Folder Name ..." />
+          </InputGroup>
+        </Form.Group>
         <FormBtns submitBtnName="Add" />
-      </form>
-    </>
+      </Form>
+    </div>
   );
   if (appContentType === "folders") {
     return (
@@ -80,7 +86,7 @@ const DesktopFoldersPage = ({ appKey, appContentType, appContent, label,folderIn
                         appContentType: "folderContent",
                         appContent: folder.data,
                         label: folder.label,
-                        index : folderIndex
+                        index: folderIndex,
                       })
                     );
                   }}

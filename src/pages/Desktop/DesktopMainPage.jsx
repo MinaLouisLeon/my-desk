@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ScreenOrientation } from "@awesome-cordova-plugins/screen-orientation";
 import "./DesktopStyles.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from "react-redux";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
