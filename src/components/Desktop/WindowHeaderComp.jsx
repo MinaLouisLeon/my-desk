@@ -12,7 +12,7 @@ import ContextMenuComp from "./ContextMenuComp";
 const WindowHeader = styled.header`
   width: 100%;
   height: 40px;
-  background-color: #00000021;
+  background-color: #ffffffd9;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -27,7 +27,7 @@ const HeaderBtns = styled.div`
 const WindowHeaderComp = ({ appName, icon, isFullscreen ,appKey}) => {
   const dispatch = useDispatch(null);
   return (
-    <WindowHeader className="pl2 pr2" id={`${appKey}HeaderContextMenuId`}>
+    <WindowHeader className="pl2 pr2 black" id={`${appKey}HeaderContextMenuId`}>
       <ContextMenuComp 
         targetId={`${appKey}HeaderContextMenuId`}
         options={[
@@ -68,15 +68,18 @@ const WindowHeaderComp = ({ appName, icon, isFullscreen ,appKey}) => {
             <Button
               className="dragHandlerClass"
               icon="move"
+              intent="primary"
             />
           )}
           <Button
             onClick={() => dispatch(actionToggleAppMin(appKey))}
             icon="minus"
+            intent="primary"
           />
           <Button
             onClick={() => dispatch(actionToggleAppFullscreen(appKey))}
             icon={isFullscreen ? "minimize" : "maximize"}
+            intent="primary"
           />
           <Button
             onClick={() => dispatch(actionCloseApp(appKey))}

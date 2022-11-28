@@ -228,6 +228,25 @@ const desktopModeReducer = createSlice({
       })
     },
   },
+  extraReducers : {
+    // eslint-disable-next-line
+    ["budgetsReducer/actionAddBudget"] : (state,action) => {
+      // need to add appKey
+      // eslint-disable-next-line
+      state.appsData.map((app) => {
+        if(app.appKey === action.payload.appKey){
+          return(
+            app.appContent.push({
+              dataType : "budget",
+              budgetName : action.payload.budgetName,
+              budgetType : action.payload.budgetType,
+              inTrash : false
+            })
+          )
+        }
+      })
+    }
+  }
 });
 
 export const {

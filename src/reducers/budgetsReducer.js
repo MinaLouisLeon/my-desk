@@ -43,9 +43,10 @@ const budgetsReducer = createSlice({
   reducers: {
     actionResetDidBudgetExist: (state, action) => {
       state.didBudgetExist = false;
-    },
+    }, 
     actionAddBudget: (state, action) => {
-      //args : budgetFolder,budgetName,BudgetType,folderIndex,custodyAmount
+      //args : budgetFolder,budgetName,BudgetType,folderIndex
+      // appKey for extra reducers in desktopModeReducer
       let budgetId = `${action.payload.budgetFolder}-${action.payload.budgetName}`;
       let budgetExistItem = state.budgetsData.filter((item) => {
         return item["budgetId"].includes(budgetId);

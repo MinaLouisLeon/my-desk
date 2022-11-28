@@ -69,6 +69,7 @@ const foldersReducer = createSlice({
     // eslint-disable-next-line
     ["budgetsReducer/actionAddBudget"]: (state, action) => {
       //args : budgetFolder,budgetName,BudgetType,folderIndex,custodyAmount
+      console.log(action.payload)
       let folderData = state.folders[action.payload.folderIndex].data;
       let budgetExistItem = folderData.filter((item) => {
         return item["budgetName"].includes(action.payload.budgetName);

@@ -5,7 +5,6 @@ import GridSystemComp from "../../components/Desktop/GridSystemComp";
 import DesktopFolderContentComp from "../../components/Desktop/Folders/DesktopFolderContentComp";
 import ContextMenuComp from "../../components/Desktop/ContextMenuComp";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 import { actionOpenInFolder } from "../../reducers/desktopModeReducer";
 import {
   actionClosePopover,
@@ -35,20 +34,15 @@ const DesktopFoldersPage = ({
   }
   const handleSubmitAddFolder = (e) => {
     e.preventDefault();
-      dispatch(actionAddFolder(e.target[0].value));
-      dispatch(actionClosePopover());
+    dispatch(actionAddFolder(e.target[0].value));
+    dispatch(actionClosePopover());
   };
-  //TODO: add new folder form ui
   const addFolderPopoverContent = (
     <div className="pa2">
-      <Form
-        onSubmit={handleSubmitAddFolder}
-      >
+      <Form onSubmit={handleSubmitAddFolder}>
         <Form.Group>
           <Form.Label>Folder Name:</Form.Label>
-          <InputGroup hasValidation >
-            <Form.Control required type="text" placeholder="Folder Name ..." />
-          </InputGroup>
+          <Form.Control required type="text" placeholder="Folder Name ..." />
         </Form.Group>
         <FormBtns submitBtnName="Add" />
       </Form>
@@ -66,11 +60,10 @@ const DesktopFoldersPage = ({
               icon: "folder-new",
               handler: () =>
                 dispatch(actionOpenPopover(addFolderPopoverContent)),
-              // TODO: add handler
             },
           ]}
         />
-        {folders.map((folder) => {
+        {folders.map((folder,index) => {
           return (
             <>
               {folder.inTrash ? (
@@ -86,7 +79,7 @@ const DesktopFoldersPage = ({
                         appContentType: "folderContent",
                         appContent: folder.data,
                         label: folder.label,
-                        index: folderIndex,
+                        index: index,
                       })
                     );
                   }}
