@@ -10,7 +10,8 @@ import {
   actionOpenPopover,
 } from "../../../reducers/tempReducer";
 import FormBtns from "../Forms/FormBtns";
-import { actionSetCustdyExpensStatus } from "../../../reducers/budgetsReducer";
+import { actionSetCustdyExpensStatus,actionDeleteBudget } from "../../../reducers/budgetsReducer";
+import { actionCloseApp } from "../../../reducers/desktopModeReducer";
 const BudgetItem = styled.div`
   width: 100%;
   border-bottom-style: solid;
@@ -20,7 +21,7 @@ const BudgetItem = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-const CustodyBudgetComp = ({ selectedBudget }) => {
+const CustodyBudgetComp = ({ selectedBudget,appKey }) => {
   const dispatch = useDispatch(null);
   const handleSubmitExpensState = (e, index, amount) => {
     e.preventDefault();
@@ -44,7 +45,23 @@ const CustodyBudgetComp = ({ selectedBudget }) => {
             text: "Add Expens",
             color: "danger",
             icon: "add",
+
             //TODO: add handler
+          },
+          {
+            text: "Delete Budget",
+            color: "danger",
+            icon: "trash",
+            handler: () => {
+              dispatch(
+                actionDeleteBudget({
+                  budgetName: selectedBudget.budgetName,
+                  budgetFolder: selectedBudget.budgetFolder,
+                  budgetType: "custody",
+                })
+              );
+              dispatch(actionCloseApp(appKey));
+            },
           },
         ]}
       />

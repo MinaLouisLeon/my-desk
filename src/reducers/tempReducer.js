@@ -8,7 +8,8 @@ const initialState = {
     alertState : {
         isOpen : false,
         content : null
-    }
+    },
+    addBudgetTempData : null
 }
 
 const tempReducer = createSlice({
@@ -41,7 +42,7 @@ const tempReducer = createSlice({
                 content : null
             }
         }
-    }
+    },
 })
 
 export const {actionOpenPopover,actionClosePopover,actionOpenAlert,actionCloseAlert} = tempReducer.actions;

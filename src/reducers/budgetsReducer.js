@@ -43,7 +43,7 @@ const budgetsReducer = createSlice({
   reducers: {
     actionResetDidBudgetExist: (state, action) => {
       state.didBudgetExist = false;
-    }, 
+    },
     actionAddBudget: (state, action) => {
       //args : budgetFolder,budgetName,BudgetType,folderIndex
       // appKey for extra reducers in desktopModeReducer
@@ -166,7 +166,7 @@ const budgetsReducer = createSlice({
               }),
               (newBudgetData = budget)
             );
-          }else{
+          } else {
             totalBudget = totalBudget - parseFloat(action.payload.amount);
             return (
               (budget.totalBudget = totalBudget),
@@ -197,12 +197,6 @@ const budgetsReducer = createSlice({
           );
         }
       });
-    },
-    // eslint-disable-next-line
-    ["desktopModeReducer/actionCloseApp"]: (state, action) => {
-      if (state.isbudgetOpenedInDesktop && action.payload.includes("Budget")) {
-        state.isbudgetOpenedInDesktop = false;
-      }
     },
   },
 });

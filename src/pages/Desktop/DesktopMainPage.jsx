@@ -16,6 +16,7 @@ import TaskbarComp from "../../components/Desktop/TaskbarComp";
 import RenderAppContentComp from "../../components/Desktop/RenderAppContentComp";
 import DesktopPopoverComp from "../../components/Desktop/DesktopPopoverComp";
 import AlertComp from "../../components/Desktop/AlertComp";
+import { actionOpenAlert } from "../../reducers/tempReducer";
 const BackgroundComp = styled.div`
   position: fixed;
   top: 0;
@@ -56,6 +57,15 @@ const DesktopMainPage = () => {
   const backgroud = useSelector((state) => state.desktopModeReducer.backgroud);
   const popoverState = useSelector((state) => state.tempReducer.popoverState);
   const alertState = useSelector(state => state.tempReducer.alertState);
+  const didBudgetExist = useSelector(state => state.budgetsReducer.didBudgetExist);
+  const isAlertOpen = useSelector(state => state.tempReducer.alertState.isOpen);
+  if(didBudgetExist && !isAlertOpen){
+    dispatch(actionOpenAlert(
+      <div className="ma3">
+        budget Exist !
+      </div>
+    ))
+  }
   return (
     <BackgroundComp
       backgroudColor={backgroud.backgroudColor}
