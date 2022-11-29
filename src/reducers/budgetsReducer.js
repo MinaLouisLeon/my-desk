@@ -45,7 +45,8 @@ const budgetsReducer = createSlice({
       state.didBudgetExist = false;
     },
     actionAddBudget: (state, action) => {
-      //args : budgetFolder,budgetName,BudgetType,folderIndex,custodyAmount
+      //args : budgetFolder,budgetName,BudgetType,folderIndex
+      // appKey for extra reducers in desktopModeReducer
       let budgetId = `${action.payload.budgetFolder}-${action.payload.budgetName}`;
       let budgetExistItem = state.budgetsData.filter((item) => {
         return item["budgetId"].includes(budgetId);
@@ -165,7 +166,7 @@ const budgetsReducer = createSlice({
               }),
               (newBudgetData = budget)
             );
-          }else{
+          } else {
             totalBudget = totalBudget - parseFloat(action.payload.amount);
             return (
               (budget.totalBudget = totalBudget),
@@ -187,7 +188,7 @@ const budgetsReducer = createSlice({
   extraReducers: {
     // eslint-disable-next-line
     ["foldersReducer/actionDeleteFolder"]: (state, action) => {
-      // payload folderIndex int , folderName string
+      // payload folderName string
       // eslint-disable-next-line
       state.budgetsData.map((item) => {
         if (item.budgetFolder === action.payload.folderName) {
@@ -196,12 +197,6 @@ const budgetsReducer = createSlice({
           );
         }
       });
-    },
-    // eslint-disable-next-line
-    ["desktopModeReducer/actionCloseApp"]: (state, action) => {
-      if (state.isbudgetOpenedInDesktop && action.payload.includes("Budget")) {
-        state.isbudgetOpenedInDesktop = false;
-      }
     },
   },
 });

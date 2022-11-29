@@ -41,12 +41,12 @@ const initialState = {
     {
       appName: "Folders",
       icon: "folder",
-      appContentType : "folders"
+      appContentType: "folders",
     },
     {
       appName: "Settings",
       icon: "settings",
-      appContentType : "settings"
+      appContentType: "settings",
     },
   ],
   appsData: [],
@@ -55,7 +55,7 @@ const initialState = {
   backgroud: {
     backgroudColor: "#0093E9",
     backgroudImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
-  }
+  },
 };
 
 const desktopModeReducer = createSlice({
@@ -64,15 +64,17 @@ const desktopModeReducer = createSlice({
   reducers: {
     actionOpenApp: (state, action) => {
       //args appName , icon  , appContentType
+      state.lastZIndex = state.lastZIndex + 1;
       let l = state.appsData.length;
       state.appsData.push({
         appName: action.payload.appName,
         icon: action.payload.icon,
         appKey: `${action.payload.appName}-${l}`,
-        label : null,
-        appContent : null,
-        appMemory : [],
-        appContentType : action.payload.appContentType,
+        label: null,
+        appContent: null,
+        folderIndex: null,
+        appMemory: [],
+        appContentType: action.payload.appContentType,
         status: {
           isOpen: true,
           size: "default",
@@ -96,7 +98,7 @@ const desktopModeReducer = createSlice({
       state.taskbarOpenedApps.push({
         appName: action.payload.appName,
         icon: action.payload.icon,
-        appKey : `${action.payload.appName}-${l}`
+        appKey: `${action.payload.appName}-${l}`,
       });
       state.lastZIndex = state.lastZIndex + 1;
     },
@@ -166,7 +168,7 @@ const desktopModeReducer = createSlice({
               (app.status.isFullscreen = false)
             );
           }
-        }else{
+        } else {
           app.status.isMin = !app.status.isMin;
         }
       });
@@ -194,35 +196,82 @@ const desktopModeReducer = createSlice({
         }
       });
     },
-    actionOpenInFolder: (state,action) => {
-      // appKey appContent appContentType label
+    actionOpenInFolder: (state, action) => {
+      // appKey appContent ,appContentType, label , index
       // eslint-disable-next-line
       state.appsData.map((app) => {
-        if(app.appKey === action.payload.appKey){
+        if (app.appKey === action.payload.appKey) {
           return (
             app.appMemory.push({
-              appContent : app.appContent,
-              appContentType : app.appContentType,
-              label:app.label
+              appContent: app.appContent,
+              appContentType: app.appContentType,
+              label: app.label,
             }),
-            app.appContentType = action.payload.appContentType,
-            app.appContent = action.payload.appContent,
-            app.label = action.payload.label
-          )
+            (app.appContentType = action.payload.appContentType),
+            (app.appContent = action.payload.appContent),
+            (app.label = action.payload.label),
+            (app.folderIndex = action.payload.index)
+          );
         }
-      })
+      });
     },
-    actionCloseInFolder : (state,action) => {
+    actionCloseInFolder: (state, action) => {
       // payload appKey
       // eslint-disable-next-line
       state.appsData.map((app) => {
-        if(app.appKey === action.payload){
+        if (app.appKey === action.payload) {
           let data = app.appMemory.pop();
           app.appContent = data.appContent;
           app.appContentType = data.appContentType;
           app.label = data.label;
         }
-      })
+      });
+    },
+    actionAddBudgetInDesktopMode: (state, action) => {},
+  },
+  extraReducers: {
+    // eslint-disable-next-line
+    ["budgetsReducer/actionAddBudget"]: (state, action) => {
+      //args : budgetName,BudgetType, appKey
+      // eslint-disable-next-line
+      state.appsData.map((app) => {
+        if (app.appKey === action.payload.appKey) {
+          let didBudgetExist = false;
+          // eslint-disable-next-line
+          app.appContent.map((item) => {
+            if (item.dataType === "budget") {
+              if (item.budgetName === action.payload.budgetName) {
+                didBudgetExist = true;
+              }
+            }
+          });
+          if (!didBudgetExist) {
+            return app.appContent.push({
+              dataType: "budget",
+              budgetName: action.payload.budgetName,
+              budgetType: action.payload.budgetType,
+              inTrash: false,
+            });
+          }
+        }
+      });
+    },
+    // eslint-disable-next-line
+    ["budgetsReducer/actionDeleteBudget"]: (state, action) => {
+      // payload budgetName , budgetFolder,budgetType
+      // eslint-disable-next-line
+      state.appsData.map((app) => {
+        if (app.label === action.payload.budgetFolder) {
+          // eslint-disable-next-line
+          app.appContent.map((item) => {
+            if (item.dataType === "budget") {
+              if (item.budgetType === action.payload.budgetType) {
+                return (item.inTrash = true);
+              }
+            }
+          });
+        }
+      });
     },
   },
 });
@@ -236,5 +285,6 @@ export const {
   actionUpdateZIndex,
   actionOpenInFolder,
   actionCloseInFolder,
+  actionAddBudgetInDesktopMode,
 } = desktopModeReducer.actions;
 export default desktopModeReducer.reducer;

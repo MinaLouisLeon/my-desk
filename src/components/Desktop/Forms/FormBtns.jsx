@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@blueprintjs/core";
 import { useDispatch } from "react-redux";
 import { actionClosePopover } from "../../../reducers/tempReducer";
-const FormBtns = ({ submitBtnName,onDismiss }) => {
+const FormBtns = ({ submitBtnName }) => {
   const dispatch = useDispatch(null);
   return (
     <div

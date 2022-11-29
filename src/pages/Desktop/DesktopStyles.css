@@ -16,8 +16,8 @@
   left: 0;
   overflow-x: auto;
 }
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .appBackgroundStyle {
     background-color: #121212;
   }
-}
+} */

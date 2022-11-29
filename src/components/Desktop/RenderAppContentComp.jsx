@@ -9,6 +9,7 @@ const RenderAppContentComp = ({
   appContentType,
   appContent,
   label,
+  folderIndex
 }) => {
   const renderAppContent = () => {
     switch (appName) {
@@ -20,6 +21,7 @@ const RenderAppContentComp = ({
               appContentType={appContentType}
               appContent={appContent}
               label={label}
+              folderIndex={folderIndex}
             />
           </div>
         );

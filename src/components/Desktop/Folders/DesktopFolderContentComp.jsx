@@ -1,25 +1,92 @@
-import React,{useState} from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FoldersSubHeader from "./FoldersSubHeader";
 import GridSystemComp from "../GridSystemComp";
 import ContextMenuComp from "../ContextMenuComp";
 import ItemInGridComp from "../ItemInGridComp";
+import Form from "react-bootstrap/Form";
 import {
   actionCloseInFolder,
   actionOpenApp,
 } from "../../../reducers/desktopModeReducer";
 import {
+  actionAddBudget,
   actionOpenBudgetInDesktopMode,
   actionSetSelectedBudget,
 } from "../../../reducers/budgetsReducer";
-const DesktopFolderContentComp = ({ data, label, appKey }) => {
+import { actionDeleteFolder } from "../../../reducers/foldersReducer";
+import FormBtns from "../Forms/FormBtns";
+import {
+  actionClosePopover,
+  actionOpenPopover,
+} from "../../../reducers/tempReducer";
+const DesktopFolderContentComp = ({ data, label, appKey, folderIndex }) => {
+  console.log(folderIndex);
   const dispatch = useDispatch(null);
   const isbudgetOpenedInDesktop = useSelector(
     (state) => state.budgetsReducer.isbudgetOpenedInDesktop
   );
-  // eslint-disable-next-line
-  const [isNewBudgetPopoverOpen,setIsNewBudgetPopoverOpen] = useState(true)
-  console.log(isNewBudgetPopoverOpen)
+
+  const handleAddNormalBudgetFormSubmit = (e) => {
+    e.preventDefault();
+    console.log(e);
+    dispatch(
+      actionAddBudget({
+        budgetFolder: label,
+        budgetName: e.target[0].value,
+        budgetType: "normal",
+        folderIndex: folderIndex,
+        appKey: appKey,
+      })
+    );
+    dispatch(actionClosePopover());
+  };
+  const AddNormalBudgetPopoverContent = (
+    <div className="pa2">
+      <Form onSubmit={handleAddNormalBudgetFormSubmit}>
+        <Form.Group>
+          <Form.Label>Budget Name:</Form.Label>
+          <Form.Control type="text" required placeholder="Budget Name ..." />
+        </Form.Group>
+        <FormBtns submitBtnName="Add" />
+      </Form>
+    </div>
+  );
+  const handleAddCustodyBudgetFormSubmit = (e) => {
+    e.preventDefault();
+    console.log(e);
+    dispatch(
+      actionAddBudget({
+        budgetFolder: label,
+        budgetName: e.target[0].value,
+        budgetType: "custody",
+        folderIndex: folderIndex,
+        custodyAmount: e.target[1].value,
+        appKey: appKey,
+      })
+    );
+    dispatch(actionClosePopover());
+  };
+  const AddCustodyBudgetPopoverContent = (
+    <div className="pa2">
+      <Form onSubmit={handleAddCustodyBudgetFormSubmit}>
+        <Form.Group>
+          <Form.Label>Budget Name:</Form.Label>
+          <Form.Control type="text" required placeholder="Budget Name ..." />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Custody Amount:</Form.Label>
+          <Form.Control
+            type="number"
+            step="0.01"
+            required
+            placeholder="Enter Cudsty Amount ..."
+          />
+        </Form.Group>
+        <FormBtns submitBtnName="Add" />
+      </Form>
+    </div>
+  );
   const handleItemType = (item) => {
     if (item.dataType === "budget") {
       return (
@@ -47,6 +114,7 @@ const DesktopFolderContentComp = ({ data, label, appKey }) => {
       );
     }
   };
+  // TODO: add submenu
   return (
     <>
       <ContextMenuComp
@@ -59,23 +127,34 @@ const DesktopFolderContentComp = ({ data, label, appKey }) => {
             handler: () => dispatch(actionCloseInFolder(appKey)),
           },
           {
-            text: "New Budget",
+            text: "New Normal Budget",
             color: "none",
             icon: "credit-card",
-            // TODO: add handler
+            handler: () =>
+              dispatch(actionOpenPopover(AddNormalBudgetPopoverContent)),
+          },
+          {
+            text: "New Custody Budget",
+            color: "none",
+            icon: "credit-card",
+            handler: () =>
+              dispatch(actionOpenPopover(AddCustodyBudgetPopoverContent)),
           },
           {
             text: "Delete Folder",
             color: "danger",
             icon: "trash",
-            // TODO: add handler
+            handler: () => {
+              dispatch(actionDeleteFolder(label));
+              dispatch(actionCloseInFolder(appKey));
+            },
           },
         ]}
       />
       <FoldersSubHeader label={label} appKey={appKey} />
       <GridSystemComp>
         {data.map((item) => {
-          return <>{handleItemType(item)}</>;
+          return <>{item.inTrash ? <></> : <>{handleItemType(item)}</>}</>;
         })}
       </GridSystemComp>
     </>

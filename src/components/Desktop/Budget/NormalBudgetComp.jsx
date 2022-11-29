@@ -2,6 +2,9 @@ import React from 'react'
 import styled from "styled-components";
 import ContextMenuComp from '../ContextMenuComp';
 import BudgetSubHeader from './BudgetSubHeader';
+import { useDispatch } from 'react-redux';
+import { actionDeleteBudget } from '../../../reducers/budgetsReducer';
+import { actionCloseApp } from '../../../reducers/desktopModeReducer';
 const BudgetItem = styled.div`
   width: 100%;
   border-bottom-style: solid;
@@ -11,7 +14,8 @@ const BudgetItem = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-const NormalBudgetComp = ({selectedBudget}) => {
+const NormalBudgetComp = ({selectedBudget,appKey}) => {
+  const dispatch = useDispatch(null);
   return (
     <div style={{width:"100%",height:"100%"}} id="NormalBudgetContextId">
         <ContextMenuComp 
@@ -27,6 +31,18 @@ const NormalBudgetComp = ({selectedBudget}) => {
                     color : "danger",
                     icon : "add"
                     //TODO: add handler
+                },{
+                  text : "Delete Budget",
+                  color : "danger",
+                  icon : "trash",
+                  handler : () => {
+                    dispatch(actionDeleteBudget({
+                    budgetName : selectedBudget.budgetName,
+                    budgetFolder : selectedBudget.budgetFolder,
+                    budgetType : "normal"
+                  }));
+                  dispatch(actionCloseApp(appKey))
+                  }
                 }
             ]}
         />

@@ -19,10 +19,7 @@ const MobileFolderContentPage = () => {
       icon: trashOutline,
       iconColor: "danger",
       handler: () => {
-        dispatch(actionDeleteFolder({
-          folderIndex: index,
-          folderName: label
-        }));
+        dispatch(actionDeleteFolder(label));
         history.goBack();
       }
     }
