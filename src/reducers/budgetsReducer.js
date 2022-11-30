@@ -96,7 +96,7 @@ const budgetsReducer = createSlice({
       state.selectedBudget = filteredBudget;
     },
     actionAddAmountToBudget: (state, action) => {
-      //args type (income,expens), label , amount,status
+      //args type (income,expens), label , amount
       let budgetId = state.selectedBudget[0].budgetId;
       let totalBudget = parseFloat(state.selectedBudget[0].totalBudget);
       if (action.payload.type === "income") {
@@ -186,6 +186,12 @@ const budgetsReducer = createSlice({
     },
   },
   extraReducers: {
+    // eslint-disable-next-line
+    ["desktopModeReducer/actionCloseApp"]: (state, action) => {
+      if (action.payload.includes("Budget")) {
+        state.isbudgetOpenedInDesktop = false;
+      }
+    },
     // eslint-disable-next-line
     ["foldersReducer/actionDeleteFolder"]: (state, action) => {
       // payload folderName string
