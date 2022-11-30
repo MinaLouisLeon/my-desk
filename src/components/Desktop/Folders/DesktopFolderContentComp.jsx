@@ -127,18 +127,24 @@ const DesktopFolderContentComp = ({ data, label, appKey, folderIndex }) => {
             handler: () => dispatch(actionCloseInFolder(appKey)),
           },
           {
-            text: "New Normal Budget",
+            text: "New Budget",
             color: "none",
             icon: "credit-card",
-            handler: () =>
-              dispatch(actionOpenPopover(AddNormalBudgetPopoverContent)),
-          },
-          {
-            text: "New Custody Budget",
-            color: "none",
-            icon: "credit-card",
-            handler: () =>
-              dispatch(actionOpenPopover(AddCustodyBudgetPopoverContent)),
+            hasSubmenu: true,
+            submenuOptions: [
+              {
+                text: "Normal Budget",
+                color: "none",
+                handler: () =>
+                  dispatch(actionOpenPopover(AddNormalBudgetPopoverContent)),
+              },
+              {
+                text: "custody Budget",
+                color: "none",
+                handler: () =>
+                  dispatch(actionOpenPopover(AddCustodyBudgetPopoverContent)),
+              },
+            ],
           },
           {
             text: "Delete Folder",

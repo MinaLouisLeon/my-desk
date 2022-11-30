@@ -94,15 +94,39 @@ const ContextMenuComp = ({ targetId, options }) => {
     >
       <Menu className="shadow-2">
         {options.map((item) => {
-          return (
-            <MenuItem
-              icon={item.icon}
-              text={item.text}
-              intent={item.color}
-              onClick={(e) => item.handler(e)}
-              disabled={item.disabled}
-            />
-          );
+          if (item.hasSubmenu) {
+            return (
+              <MenuItem
+                icon={item.icon}
+                text={item.text}
+                intent={item.color}
+                onClick={(e) => item.handler(e)}
+                disabled={item.disabled}
+              >
+                {item.submenuOptions.map((submenuItem) => {
+                  return (
+                    <MenuItem
+                      icon={submenuItem.icon}
+                      text={submenuItem.text}
+                      intent={submenuItem.color}
+                      onClick={(e) => submenuItem.handler(e)}
+                      disabled={submenuItem.disabled}
+                    />
+                  );
+                })}
+              </MenuItem>
+            );
+          } else {
+            return (
+              <MenuItem
+                icon={item.icon}
+                text={item.text}
+                intent={item.color}
+                onClick={(e) => item.handler(e)}
+                disabled={item.disabled}
+              />
+            );
+          }
         })}
       </Menu>
     </ContextMenuContainer>
