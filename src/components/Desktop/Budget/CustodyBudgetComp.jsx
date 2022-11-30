@@ -10,7 +10,11 @@ import {
   actionOpenPopover,
 } from "../../../reducers/tempReducer";
 import FormBtns from "../Forms/FormBtns";
-import { actionSetCustdyExpensStatus,actionDeleteBudget } from "../../../reducers/budgetsReducer";
+import {
+  actionSetCustdyExpensStatus,
+  actionDeleteBudget,
+  actionAddAmountToBudget,
+} from "../../../reducers/budgetsReducer";
 import { actionCloseApp } from "../../../reducers/desktopModeReducer";
 const BudgetItem = styled.div`
   width: 100%;
@@ -21,8 +25,34 @@ const BudgetItem = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-const CustodyBudgetComp = ({ selectedBudget,appKey }) => {
+const CustodyBudgetComp = ({ selectedBudget, appKey }) => {
   const dispatch = useDispatch(null);
+  const handleSubmitAddExpens = (e) => {
+    e.preventDefault();
+    dispatch(
+      actionAddAmountToBudget({
+        type: "expens",
+        label: e.target[0].value,
+        amount: e.target[1].value,
+      })
+    );
+    dispatch(actionClosePopover());
+  };
+  const addExpensPopoverContent = (
+    <div className="pa2">
+      <Form onSubmit={handleSubmitAddExpens}>
+        <Form.Group>
+          <Form.Label>Expens Label:</Form.Label>
+          <Form.Control type="text" required />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Expens Amount:</Form.Label>
+          <Form.Control type="number" step="0.01" required />
+        </Form.Group>
+        <FormBtns submitBtnName="Add" />
+      </Form>
+    </div>
+  );
   const handleSubmitExpensState = (e, index, amount) => {
     e.preventDefault();
     console.log(e);
@@ -45,8 +75,7 @@ const CustodyBudgetComp = ({ selectedBudget,appKey }) => {
             text: "Add Expens",
             color: "danger",
             icon: "add",
-
-            //TODO: add handler
+            handler: () => dispatch(actionOpenPopover(addExpensPopoverContent)),
           },
           {
             text: "Delete Budget",

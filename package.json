@@ -4,7 +4,7 @@
     "name": "Mina Louis Leon",
     "email": "minalouisleon@gmail.com"
   },
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@awesome-cordova-plugins/core": "^6.2.0",
