@@ -1,4 +1,5 @@
 import React from "react";
+import DesktopBrowserPage from "../../pages/Desktop/DesktopBrowserPage";
 import DesktopBudgetPage from "../../pages/Desktop/DesktopBudgetPage";
 import DesktopFoldersPage from "../../pages/Desktop/DesktopFoldersPage";
 import DesktopSettingsPage from "../../pages/Desktop/DesktopSettingsPage";
@@ -37,6 +38,12 @@ const RenderAppContentComp = ({
             <DesktopSettingsPage />
           </div>
         );
+      case "Browser":
+        return(
+          <div className="appBackgroundStyle">
+            <DesktopBrowserPage />
+          </div>
+        )
       default:
         return <></>;
     }

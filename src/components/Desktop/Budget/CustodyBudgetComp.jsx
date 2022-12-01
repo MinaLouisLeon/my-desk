@@ -55,7 +55,6 @@ const CustodyBudgetComp = ({ selectedBudget, appKey }) => {
   );
   const handleSubmitExpensState = (e, index, amount) => {
     e.preventDefault();
-    console.log(e);
     dispatch(
       actionSetCustdyExpensStatus({
         isSubmitted: e.target[0].checked,

@@ -31,7 +31,7 @@
       maxH: number,
       minW: number,
       maxW: number,
-    },
+    }
     lastDataGrid : null or auto object copy of dataGrid
   ]
  */
@@ -47,14 +47,19 @@ const initialState = {
       appName: "Settings",
       icon: "settings",
       appContentType: "settings",
-    },
+    },{
+      appName : "Browser",
+      icon : "browser",
+      appContentType : "browser"
+    }
   ],
+  isSettingsOpened: false,
   appsData: [],
   taskbarOpenedApps: [],
   lastZIndex: 2,
   backgroud: {
-    backgroudColor: "#0093E9",
-    backgroudImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
+    backgroundColor: "#0093E9",
+    backgroundImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
   },
 };
 
@@ -64,46 +69,60 @@ const desktopModeReducer = createSlice({
   reducers: {
     actionOpenApp: (state, action) => {
       //args appName , icon  , appContentType
-      state.lastZIndex = state.lastZIndex + 1;
-      let l = state.appsData.length;
-      state.appsData.push({
-        appName: action.payload.appName,
-        icon: action.payload.icon,
-        appKey: `${action.payload.appName}-${l}`,
-        label: null,
-        appContent: null,
-        folderIndex: null,
-        appMemory: [],
-        appContentType: action.payload.appContentType,
-        status: {
-          isOpen: true,
-          size: "default",
-          isFullscreen: false,
-          isMin: false,
-          zIndex: state.lastZIndex + 1,
-        },
-        dataGrid: {
-          i: `${action.payload.appName}-${l}`,
-          x: 0,
-          y: 0,
-          w: 4,
-          h: 4,
-          minH: 4,
-          maxH: 8,
-          minW: 4,
-          maxW: 12,
-        },
-        lastDataGrid: null,
-      });
-      state.taskbarOpenedApps.push({
-        appName: action.payload.appName,
-        icon: action.payload.icon,
-        appKey: `${action.payload.appName}-${l}`,
-      });
-      state.lastZIndex = state.lastZIndex + 1;
+      let startOpenApp = false;
+      if (!state.isSettingsOpened && action.payload.appName === "Settings") {
+        state.isSettingsOpened = true;
+        startOpenApp = true;
+      } else if (
+        action.payload.appName !== "Settings"
+      ) {
+        startOpenApp = true;
+      }
+      if (startOpenApp) {
+        state.lastZIndex = state.lastZIndex + 1;
+        let l = state.appsData.length;
+        state.appsData.push({
+          appName: action.payload.appName,
+          icon: action.payload.icon,
+          appKey: `${action.payload.appName}-${l}`,
+          label: null,
+          appContent: null,
+          folderIndex: null,
+          appMemory: [],
+          appContentType: action.payload.appContentType,
+          status: {
+            isOpen: true,
+            size: "default",
+            isFullscreen: false,
+            isMin: false,
+            zIndex: state.lastZIndex + 1,
+          },
+          dataGrid: {
+            i: `${action.payload.appName}-${l}`,
+            x: 0,
+            y: 0,
+            w: 4,
+            h: 4,
+            minH: 4,
+            maxH: 8,
+            minW: 4,
+            maxW: 12,
+          },
+          lastDataGrid: null,
+        });
+        state.taskbarOpenedApps.push({
+          appName: action.payload.appName,
+          icon: action.payload.icon,
+          appKey: `${action.payload.appName}-${l}`,
+        });
+        state.lastZIndex = state.lastZIndex + 1;
+      }
     },
     actionCloseApp: (state, action) => {
       // payload appKey
+      if(action.payload.includes("Settings")){
+        state.isSettingsOpened = false
+      }
       let appIndex = null;
       // eslint-disable-next-line
       state.appsData.map((app, index) => {
@@ -227,7 +246,13 @@ const desktopModeReducer = createSlice({
         }
       });
     },
-    actionAddBudgetInDesktopMode: (state, action) => {},
+    actionSetBackground: (state, action) => {
+      //args backgroundColor , backGroundImage
+      state.backgroud = {
+        backgroundColor: action.payload.backgroundColor,
+        backgroundImage: action.payload.backgroundImage,
+      };
+    },
   },
   extraReducers: {
     // eslint-disable-next-line
@@ -285,6 +310,6 @@ export const {
   actionUpdateZIndex,
   actionOpenInFolder,
   actionCloseInFolder,
-  actionAddBudgetInDesktopMode,
+  actionSetBackground,
 } = desktopModeReducer.actions;
 export default desktopModeReducer.reducer;

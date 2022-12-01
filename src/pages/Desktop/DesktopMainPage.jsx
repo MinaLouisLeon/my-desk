@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ScreenOrientation } from "@awesome-cordova-plugins/screen-orientation";
 import "./DesktopStyles.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -23,8 +23,8 @@ const BackgroundComp = styled.div`
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: ${(props) => props.backgroudColor};
-  background-image: ${(props) => props.backgroudImage};
+  background-color: ${(props) => props.backgroundColor};
+  background-image: ${(props) => props.backgroundImage};
 `;
 const WorkareaComp = styled.div`
   position: fixed;
@@ -56,25 +56,23 @@ const DesktopMainPage = () => {
   const appsData = useSelector((state) => state.desktopModeReducer.appsData);
   const backgroud = useSelector((state) => state.desktopModeReducer.backgroud);
   const popoverState = useSelector((state) => state.tempReducer.popoverState);
-  const alertState = useSelector(state => state.tempReducer.alertState);
-  const didBudgetExist = useSelector(state => state.budgetsReducer.didBudgetExist);
-  const isAlertOpen = useSelector(state => state.tempReducer.alertState.isOpen);
-  if(didBudgetExist && !isAlertOpen){
-    dispatch(actionOpenAlert(
-      <div className="ma3">
-        budget Exist !
-      </div>
-    ))
+  const alertState = useSelector((state) => state.tempReducer.alertState);
+  const didBudgetExist = useSelector(
+    (state) => state.budgetsReducer.didBudgetExist
+  );
+  const isAlertOpen = useSelector(
+    (state) => state.tempReducer.alertState.isOpen
+  );
+  if (didBudgetExist && !isAlertOpen) {
+    dispatch(actionOpenAlert(<div className="ma3">budget Exist !</div>));
   }
   return (
     <BackgroundComp
-      backgroudColor={backgroud.backgroudColor}
-      backgroudImage={backgroud.backgroudImage}
+      backgroundColor={backgroud.backgroundColor}
+      backgroundImage={backgroud.backgroundImage}
       id="DesktopContextMenuId"
     >
-      <AlertComp isOpen={alertState.isOpen}>
-        {alertState.content}
-      </AlertComp>
+      <AlertComp isOpen={alertState.isOpen}>{alertState.content}</AlertComp>
       <DesktopPopoverComp isOpen={popoverState.isOpen}>
         {popoverState.content}
       </DesktopPopoverComp>
