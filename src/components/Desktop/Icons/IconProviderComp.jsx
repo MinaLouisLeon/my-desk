@@ -1,6 +1,6 @@
 import React from "react";
 import { IconContext } from "react-icons";
-import { FcOpenedFolder, FcEngineering ,FcLeft,FcSelfServiceKiosk,FcMenu,FcBullish} from "react-icons/fc";
+import { FcOpenedFolder, FcEngineering ,FcLeft,FcSelfServiceKiosk,FcMenu,FcBullish,FcGoogle} from "react-icons/fc";
 
 const IconProviderComp = ({ iconName, settings }) => {
   const chooseIcon = () => {
@@ -17,6 +17,8 @@ const IconProviderComp = ({ iconName, settings }) => {
         return <FcEngineering />;
       case "budget":
         return <FcBullish />
+      case "browser":
+        return <FcGoogle />
       default:
         return <></>;
     }

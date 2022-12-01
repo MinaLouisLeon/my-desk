@@ -31,7 +31,7 @@
       maxH: number,
       minW: number,
       maxW: number,
-    },
+    }
     lastDataGrid : null or auto object copy of dataGrid
   ]
  */
@@ -47,8 +47,13 @@ const initialState = {
       appName: "Settings",
       icon: "settings",
       appContentType: "settings",
-    },
+    },{
+      appName : "Browser",
+      icon : "browser",
+      appContentType : "browser"
+    }
   ],
+  isSettingsOpened: false,
   appsData: [],
   taskbarOpenedApps: [],
   lastZIndex: 2,
@@ -64,46 +69,60 @@ const desktopModeReducer = createSlice({
   reducers: {
     actionOpenApp: (state, action) => {
       //args appName , icon  , appContentType
-      state.lastZIndex = state.lastZIndex + 1;
-      let l = state.appsData.length;
-      state.appsData.push({
-        appName: action.payload.appName,
-        icon: action.payload.icon,
-        appKey: `${action.payload.appName}-${l}`,
-        label: null,
-        appContent: null,
-        folderIndex: null,
-        appMemory: [],
-        appContentType: action.payload.appContentType,
-        status: {
-          isOpen: true,
-          size: "default",
-          isFullscreen: false,
-          isMin: false,
-          zIndex: state.lastZIndex + 1,
-        },
-        dataGrid: {
-          i: `${action.payload.appName}-${l}`,
-          x: 0,
-          y: 0,
-          w: 4,
-          h: 4,
-          minH: 4,
-          maxH: 8,
-          minW: 4,
-          maxW: 12,
-        },
-        lastDataGrid: null,
-      });
-      state.taskbarOpenedApps.push({
-        appName: action.payload.appName,
-        icon: action.payload.icon,
-        appKey: `${action.payload.appName}-${l}`,
-      });
-      state.lastZIndex = state.lastZIndex + 1;
+      let startOpenApp = false;
+      if (!state.isSettingsOpened && action.payload.appName === "Settings") {
+        state.isSettingsOpened = true;
+        startOpenApp = true;
+      } else if (
+        action.payload.appName !== "Settings"
+      ) {
+        startOpenApp = true;
+      }
+      if (startOpenApp) {
+        state.lastZIndex = state.lastZIndex + 1;
+        let l = state.appsData.length;
+        state.appsData.push({
+          appName: action.payload.appName,
+          icon: action.payload.icon,
+          appKey: `${action.payload.appName}-${l}`,
+          label: null,
+          appContent: null,
+          folderIndex: null,
+          appMemory: [],
+          appContentType: action.payload.appContentType,
+          status: {
+            isOpen: true,
+            size: "default",
+            isFullscreen: false,
+            isMin: false,
+            zIndex: state.lastZIndex + 1,
+          },
+          dataGrid: {
+            i: `${action.payload.appName}-${l}`,
+            x: 0,
+            y: 0,
+            w: 4,
+            h: 4,
+            minH: 4,
+            maxH: 8,
+            minW: 4,
+            maxW: 12,
+          },
+          lastDataGrid: null,
+        });
+        state.taskbarOpenedApps.push({
+          appName: action.payload.appName,
+          icon: action.payload.icon,
+          appKey: `${action.payload.appName}-${l}`,
+        });
+        state.lastZIndex = state.lastZIndex + 1;
+      }
     },
     actionCloseApp: (state, action) => {
       // payload appKey
+      if(action.payload.includes("Settings")){
+        state.isSettingsOpened = false
+      }
       let appIndex = null;
       // eslint-disable-next-line
       state.appsData.map((app, index) => {
