@@ -21,7 +21,6 @@ import {
   actionOpenPopover,
 } from "../../../reducers/tempReducer";
 const DesktopFolderContentComp = ({ data, label, appKey, folderIndex }) => {
-  console.log(folderIndex);
   const dispatch = useDispatch(null);
   const isbudgetOpenedInDesktop = useSelector(
     (state) => state.budgetsReducer.isbudgetOpenedInDesktop
@@ -29,7 +28,6 @@ const DesktopFolderContentComp = ({ data, label, appKey, folderIndex }) => {
 
   const handleAddNormalBudgetFormSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
     dispatch(
       actionAddBudget({
         budgetFolder: label,
@@ -54,7 +52,6 @@ const DesktopFolderContentComp = ({ data, label, appKey, folderIndex }) => {
   );
   const handleAddCustodyBudgetFormSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
     dispatch(
       actionAddBudget({
         budgetFolder: label,

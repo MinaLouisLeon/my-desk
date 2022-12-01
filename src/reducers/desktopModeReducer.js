@@ -53,8 +53,8 @@ const initialState = {
   taskbarOpenedApps: [],
   lastZIndex: 2,
   backgroud: {
-    backgroudColor: "#0093E9",
-    backgroudImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
+    backgroundColor: "#0093E9",
+    backgroundImage: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
   },
 };
 
@@ -227,7 +227,13 @@ const desktopModeReducer = createSlice({
         }
       });
     },
-    actionAddBudgetInDesktopMode: (state, action) => {},
+    actionSetBackground: (state, action) => {
+      //args backgroundColor , backGroundImage
+      state.backgroud = {
+        backgroundColor: action.payload.backgroundColor,
+        backgroundImage: action.payload.backgroundImage,
+      };
+    },
   },
   extraReducers: {
     // eslint-disable-next-line
@@ -285,6 +291,6 @@ export const {
   actionUpdateZIndex,
   actionOpenInFolder,
   actionCloseInFolder,
-  actionAddBudgetInDesktopMode,
+  actionSetBackground,
 } = desktopModeReducer.actions;
 export default desktopModeReducer.reducer;
