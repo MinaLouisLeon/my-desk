@@ -1,9 +1,12 @@
 import React from 'react'
-import {InAppBrowser} from "@awesome-cordova-plugins/in-app-browser";
+import { Browser } from '@capacitor/browser';
 const DesktopBrowserPage = () => {
-    InAppBrowser.create("https://www.google.com/")
+    const handleOpenBrowser = async () => {
+      await Browser.open({ url: 'http://capacitorjs.com/' })
+    }
   return (
     <>
+      <button onClick={() => handleOpenBrowser()}>Open browser</button>
     </>
   )
 }
